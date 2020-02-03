@@ -245,14 +245,14 @@ class Row {
     return bindings.sqlite3_column_int(_statement, columnIndex);
   }
 
-  /// Reads column [columnName] and converts to [Type.Double] if not an
-  /// Double.
+  /// Reads column [columnName] and converts to [Type.Float] if not an
+  /// double.
   double readColumnAsDouble(String columnName) {
     return readColumnByIndexAsDouble(_columnIndices[columnName]);
   }
 
-  /// Reads column [columnIndex] and converts to [Type.Double] if not an
-  /// integer.
+  /// Reads column [columnIndex] and converts to [Type.Float] if not an
+  /// double.
   double readColumnByIndexAsDouble(int columnIndex) {
     _checkIsCurrentRow();
     return bindings.sqlite3_column_double(_statement, columnIndex);
