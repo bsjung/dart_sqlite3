@@ -1,12 +1,22 @@
 # dart_sqlite3
  
-It has from Dart SDK v2.8.0-dev6.0 ( https://github.com/dart-lang/sdk/tree/master/samples/ffi/sqlite ).
+It is from Dart SDK v2.8.0-dev6.0 ( https://github.com/dart-lang/sdk/tree/master/samples/ffi/sqlite ).
 
 ## Prerequirement
 
-For Windows, Linux, and MacOS, you should make sure, sqlite dev lib installed on your system.
+For Linux, you should make sure, sqlite dev lib installed on your system.
+For example, there are packages for ubuntu.
 
-Windows user can download dll from https://www.sqlite.org/download.html
+```
+% sudo apt-get install sqlite3 libsqlite3-dev
+```
+
+For Mac, user can install with brew.
+```
+% brew install sqlite3 
+```
+
+For Windows, user can download dll from https://www.sqlite.org/download.html
 
 If you do not have any sqlite3.dll or so file, you may found error message:
 
@@ -16,6 +26,8 @@ Invalid argument(s): Failed to load dynamic library (126)
 #0      _open (dart:ffi-patch/ffi_dynamic_library_patch.dart:13:55)
 #1      new DynamicLibrary.open (dart:ffi-patch/ffi_dynamic_library_patch.dart:22:12)
 ```
+
+## Example
 
 This is a sample dart program for SQLite3.
 
@@ -60,14 +72,13 @@ A tutorial walking through the code is available in [docs/sqlite-tutorial.md](do
 For information on how to use this package within a Flutter app, see [docs/android.md](docs/android.md).
 (Note: iOS is not yet supported).
 
-## API
-
 ## Authors
 
  Daco Harkes <dacoharkes@google.com>
 
  Samir Jindel <sjindel@google.com>
 
+ Benjamin Jung <bsjung@google.com>
 
 ## License
 

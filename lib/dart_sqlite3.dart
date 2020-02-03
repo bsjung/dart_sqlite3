@@ -5,6 +5,6 @@
 /// A synchronous SQLite wrapper.
 ///
 /// Written using dart:ffi.
-library sqlite;
+library dart_sqlite3;
 
 export "src/database.dart";
