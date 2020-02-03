@@ -1,82 +1,32 @@
-// Copyright (c) 2019, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-import "../lib/sqlite.dart";
+import "package:dart_sqlite3/dart_sqlite3.dart";
 
 void main() {
   Database d = Database("test.db");
-  d.execute("drop table if exists Cookies;");
+  d.execute("drop table if exists stocks;");
   d.execute("""
-      create table Cookies (
-        id integer primary key,
-        name text not null,
-        alternative_name text
+      create table stocks (
+        date text not null,
+        trans text not null,
+        symbol text not null,
+        qty integer,
+        price real
       );""");
   d.execute("""
-      insert into Cookies (id, name, alternative_name)
+      insert into stocks (date, trans, symbol, qty, price)
       values
-        (1,'Chocolade chip cookie', 'Chocolade cookie'),
-        (2,'Ginger cookie', null),
-        (3,'Cinnamon roll', null)
+        ('2006-01-05','BUY','RHAT',100,35.14),
+        ('2006-01-05','SELL','IBM',1000,45)
       ;""");
-  Result result = d.query("""
-      select
-        id,
-        name,
-        alternative_name,
-        case
-          when id=1 then 'foo'
-          when id=2 then 42
-          when id=3 then null
-        end as multi_typed_column
-      from Cookies
-      ;""");
+  Result result = d.query("select * from stocks where symbol = 'IBM';");
   for (Row r in result) {
-    int id = r.readColumnAsInt("id");
-    String name = r.readColumnByIndex(1);
-    String alternativeName = r.readColumn("alternative_name");
-    dynamic multiTypedValue = r.readColumn("multi_typed_column");
-    print("$id $name $alternativeName $multiTypedValue");
+    String date = r.readColumn("date");
+    String trans = r.readColumn("trans");
+    String symbol = r.readColumn("symbol");
+    int qty = r.readColumnAsInt("qty");
+    double price = r.readColumnAsDouble("price");
+    print("$date $trans $symbol $qty $price");
   }
-  result = d.query("""
-      select
-        id,
-        name,
-        alternative_name,
-        case
-          when id=1 then 'foo'
-          when id=2 then 42
-          when id=3 then null
-        end as multi_typed_column
-      from Cookies
-      ;""");
-  for (Row r in result) {
-    int id = r.readColumnAsInt("id");
-    String name = r.readColumnByIndex(1);
-    String alternativeName = r.readColumn("alternative_name");
-    dynamic multiTypedValue = r.readColumn("multi_typed_column");
-    print("$id $name $alternativeName $multiTypedValue");
-    if (id == 2) {
-      result.close();
-      break;
-    }
-  }
-  try {
-    result.iterator.moveNext();
-  } on SQLiteException catch (e) {
-    print("expected exception on accessing result data after close: $e");
-  }
-  try {
-    d.query("""
-      select
-        id,
-        non_existing_column
-      from Cookies
-      ;""");
-  } on SQLiteException catch (e) {
-    print("expected this query to fail: $e");
-  }
-  d.execute("drop table Cookies;");
+
+  //d.execute("drop table stocks;");
   d.close();
 }
