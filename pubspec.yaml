@@ -1,4 +1,4 @@
-name: dart-sqlite3
+name: dart_sqlite3
 version: 0.0.1
 description: >-
   Sqlite3 wrapper. Demo for dart:ffi.
