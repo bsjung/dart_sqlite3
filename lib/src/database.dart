@@ -221,7 +221,7 @@ class Row {
     switch (dynamicType) {
       case Type.Integer:
         return readColumnByIndexAsInt(columnIndex);
-      case Type.Fload:
+      case Type.Float:
         return readColumnByIndexAsDouble(columnIndex);
       case Type.Text:
         return readColumnByIndexAsText(columnIndex);
