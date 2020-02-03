@@ -32,7 +32,7 @@ Invalid argument(s): Failed to load dynamic library (126)
 This is a sample dart program for SQLite3.
 
 ```dart
-import "package:dart_sqlite3/dart_sqlite.dart";
+import "package:dart_sqlite3/dart_sqlite3.dart";
 
 void main() {
   Database d = Database("test.db");
