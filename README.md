@@ -45,7 +45,7 @@ void main() {
     String trans = r.readColumn("trans");
     String symbol = r.readColumn("symbol");
     int qty = r.readColumnAsInt("qty");
-    double price = r.readColumnasDouble("price");
+    double price = r.readColumnAsDouble("price");
     print("$date $trans $symbol $qty $price");
   }
 
