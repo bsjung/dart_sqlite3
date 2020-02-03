@@ -221,7 +221,7 @@ class Row {
     switch (dynamicType) {
       case Type.Integer:
         return readColumnByIndexAsInt(columnIndex);
-      case Type.Double:
+      case Type.Fload:
         return readColumnByIndexAsDouble(columnIndex);
       case Type.Text:
         return readColumnByIndexAsText(columnIndex);
@@ -251,7 +251,7 @@ class Row {
     return readColumnByIndexAsDouble(_columnIndices[columnName]);
   }
 
-  /// Reads column [columnIndex] and converts to [Type.Integer] if not an
+  /// Reads column [columnIndex] and converts to [Type.Double] if not an
   /// integer.
   double readColumnByIndexAsDouble(int columnIndex) {
     _checkIsCurrentRow();
