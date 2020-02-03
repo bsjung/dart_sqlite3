@@ -1,6 +1,6 @@
-# Sample code dart:ffi
-
-This is an illustrative sample for how to use `dart:ffi`.
+# dart_sqlite3
+ 
+It has from Dart SDK v2.8.0-dev6.0 ( https://github.com/dart-lang/sdk/tree/master/samples/ffi/sqlite ).
 
 ## Prerequirement
 
@@ -17,35 +17,41 @@ Invalid argument(s): Failed to load dynamic library (126)
 #1      new DynamicLibrary.open (dart:ffi-patch/ffi_dynamic_library_patch.dart:22:12)
 ```
 
-## Building and Running this Sample
+This is a sample dart program for SQLite3.
 
-Building and running this sample is done through pub.
-Running `pub get` and `pub run example/main` should produce the following output.
+```dart
+import "package:dart_sqlite3/sqlite.dart";
 
-```sh
-$ pub get
-Resolving dependencies... (6.8s)
-+ analyzer 0.35.4
-...
-+ yaml 2.1.15
-Downloading analyzer 0.35.4...
-Downloading kernel 0.3.14...
-Downloading front_end 0.1.14...
-Changed 47 dependencies!
-Precompiling executables... (18.0s)
-Precompiled test:test.
+void main() {
+  Database d = Database("test.db");
+  d.execute("drop table if exists stocks;");
+  d.execute("""
+      create table stocks (
+        date text not null,
+        trans text not null,
+        symbol text not null,
+        qty real,
+        price real
+      );""");
+  d.execute("""
+      insert into stocks (date, trans, symbol, qty, price)
+      values
+        ('2006-01-05','BUY','RHAT',100,35.14),
+        ('2006-01-05','SELL','IBM',1000,45)
+      ;""");
+  Result result = d.query("select * from stocks where symbol = 'IBM';");
+  for (Row r in result) {
+    String date = r.readColumn("date");
+    String trans = r.readColumn("trans");
+    String symbol = r.readColumn("symbol");
+    double qty = r.readColumnAsReal("qty");
+    double price = r.readColumnasReal("price");
+    print("$date $trans $symbol $qty $price");
+  }
 
-```
-
-```
-$ pub run example/main
-1 Chocolade chip cookie Chocolade cookie foo
-2 Ginger cookie null 42
-3 Cinnamon roll null null
-1 Chocolade chip cookie Chocolade cookie foo
-2 Ginger cookie null 42
-expected exception on accessing result data after close: The result has already been closed.
-expected this query to fail: no such column: non_existing_column (Code 1: SQL logic error)
+  //d.execute("drop table stocks;");
+  d.close();
+}
 ```
 
 ## Tutorial
@@ -53,3 +59,41 @@ expected this query to fail: no such column: non_existing_column (Code 1: SQL lo
 A tutorial walking through the code is available in [docs/sqlite-tutorial.md](docs/sqlite-tutorial.md).
 For information on how to use this package within a Flutter app, see [docs/android.md](docs/android.md).
 (Note: iOS is not yet supported).
+
+## API
+
+## Authors
+
+ Daco Harkes <dacoharkes@google.com>
+
+ Samir Jindel <sjindel@google.com>
+
+
+## License
+
+Copyright 2012, the Dart project authors.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+    * Neither the name of Google Inc. nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+

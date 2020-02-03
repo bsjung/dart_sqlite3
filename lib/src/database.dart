@@ -221,6 +221,8 @@ class Row {
     switch (dynamicType) {
       case Type.Integer:
         return readColumnByIndexAsInt(columnIndex);
+      case Type.Double:
+        return readColumnByIndexAsReal(columnIndex);
       case Type.Text:
         return readColumnByIndexAsText(columnIndex);
       case Type.Null:
@@ -241,6 +243,19 @@ class Row {
   int readColumnByIndexAsInt(int columnIndex) {
     _checkIsCurrentRow();
     return bindings.sqlite3_column_int(_statement, columnIndex);
+  }
+
+  /// Reads column [columnName] and converts to [Type.Double] if not an
+  /// Double.
+  double readColumnAsReal(String columnName) {
+    return readColumnByIndexAsReal(_columnIndices[columnName]);
+  }
+
+  /// Reads column [columnIndex] and converts to [Type.Integer] if not an
+  /// integer.
+  double readColumnByIndexAsReal(int columnIndex) {
+    _checkIsCurrentRow();
+    return bindings.sqlite3_column_real(_statement, columnIndex);
   }
 
   /// Reads column [columnName] and converts to [Type.Text] if not text.
