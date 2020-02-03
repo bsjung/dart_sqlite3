@@ -30,7 +30,7 @@ void main() {
         date text not null,
         trans text not null,
         symbol text not null,
-        qty real,
+        qty integer,
         price real
       );""");
   d.execute("""
@@ -44,8 +44,8 @@ void main() {
     String date = r.readColumn("date");
     String trans = r.readColumn("trans");
     String symbol = r.readColumn("symbol");
-    double qty = r.readColumnAsReal("qty");
-    double price = r.readColumnasReal("price");
+    int qty = r.readColumnAsInt("qty");
+    double price = r.readColumnasDouble("price");
     print("$date $trans $symbol $qty $price");
   }
 
