@@ -222,7 +222,7 @@ class Row {
       case Type.Integer:
         return readColumnByIndexAsInt(columnIndex);
       case Type.Double:
-        return readColumnByIndexAsReal(columnIndex);
+        return readColumnByIndexAsDouble(columnIndex);
       case Type.Text:
         return readColumnByIndexAsText(columnIndex);
       case Type.Null:
@@ -247,15 +247,15 @@ class Row {
 
   /// Reads column [columnName] and converts to [Type.Double] if not an
   /// Double.
-  double readColumnAsReal(String columnName) {
-    return readColumnByIndexAsReal(_columnIndices[columnName]);
+  double readColumnAsDouble(String columnName) {
+    return readColumnByIndexAsDouble(_columnIndices[columnName]);
   }
 
   /// Reads column [columnIndex] and converts to [Type.Integer] if not an
   /// integer.
-  double readColumnByIndexAsReal(int columnIndex) {
+  double readColumnByIndexAsDouble(int columnIndex) {
     _checkIsCurrentRow();
-    return bindings.sqlite3_column_real(_statement, columnIndex);
+    return bindings.sqlite3_column_double(_statement, columnIndex);
   }
 
   /// Reads column [columnName] and converts to [Type.Text] if not text.
